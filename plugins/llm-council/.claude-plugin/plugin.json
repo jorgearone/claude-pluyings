@@ -1,0 +1,8 @@
+{
+  "name": "llm-council",
+  "description": "Orquesta múltiples LLMs de código abierto vía Fireworks AI para deliberar sobre consultas usando el concepto de Consejo LLM",
+  "version": "1.0.0",
+  "author": {
+    "name": "jorgearone"
+  }
+}

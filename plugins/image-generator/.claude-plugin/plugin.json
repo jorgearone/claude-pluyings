@@ -1,0 +1,8 @@
+{
+  "name": "image-generator",
+  "description": "Genera y edita imágenes usando el modelo Gemini (gemini-3-pro-image-preview)",
+  "version": "1.0.0",
+  "author": {
+    "name": "jorgearone"
+  }
+}
