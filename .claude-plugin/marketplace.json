@@ -1,17 +1,18 @@
 {
   "name": "claude-pluyings",
-  "author": {
-    "name": "jorgearone"
+  "owner": {
+    "name": "jorgearone",
+    "email": ""
   },
   "plugins": [
     {
       "name": "image-generator",
-      "path": "./plugins/image-generator",
+      "source": "./plugins/image-generator",
       "description": "Genera y edita imágenes usando el modelo Gemini (gemini-3-pro-image-preview) con soporte para texto a imagen, edición y composición multi-imagen"
     },
     {
       "name": "llm-council",
-      "path": "./plugins/llm-council",
+      "source": "./plugins/llm-council",
       "description": "Orquesta múltiples LLMs de código abierto vía Fireworks AI para deliberar sobre consultas usando el concepto de Consejo LLM de Karpathy"
     }
   ]

@@ -16,11 +16,11 @@ Si no está configurada, indicar al usuario que siga las instrucciones del READM
 
 | ID del modelo | Nombre | Proveedor |
 |--------------|--------|-----------|
-| `accounts/z-ai/models/glm-5` | GLM 5 | Z.ai |
-| `accounts/fireworks/models/deepseek-v3` | DeepSeek V3.1 | DeepSeek |
-| `accounts/fireworks/models/deepseek-v3-2` | DeepSeek V3.2 | DeepSeek |
-| `accounts/fireworks/models/minimax-m2-1` | MiniMax M2.1 | MiniMax |
-| `accounts/fireworks/models/kimi-k2-5` | Kimi K2.5 | Moonshot |
+| `accounts/fireworks/models/glm-5` | GLM 5 | Z.ai |
+| `accounts/fireworks/models/deepseek-v3p1` | DeepSeek V3.1 | DeepSeek |
+| `accounts/fireworks/models/deepseek-v3` | DeepSeek V3.2 | DeepSeek |
+| `accounts/fireworks/models/minimax-m2p1` | MiniMax M2.1 | MiniMax |
+| `accounts/fireworks/models/kimi-k2p5` | Kimi K2.5 | Moonshot |
 | `accounts/fireworks/models/qwen3-235b` | Qwen3 235B | Alibaba |
 | `accounts/fireworks/models/llama-4-maverick` | Llama 4 Maverick | Meta |
 
