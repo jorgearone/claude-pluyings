@@ -4,14 +4,14 @@ Genera y edita imágenes usando el modelo `gemini-3-pro-image-preview` de Google
 
 ## Configuración requerida
 
-Antes de usar este skill, el usuario debe tener configurada la variable de entorno `GEMINI_API_KEY`.
+SIEMPRE ejecutar este comando bash ANTES de cualquier otra acción para verificar la key:
 
-Verificar con:
 ```bash
 echo $GEMINI_API_KEY
 ```
 
-Si no está configurada, indicar al usuario que siga las instrucciones del README.
+- Si el comando devuelve un valor → la key está disponible, PROCEDER normalmente usando `$GEMINI_API_KEY` en los comandos curl.
+- Si el comando devuelve vacío → indicar al usuario que configure la variable siguiendo el README y detener el proceso.
 
 ## Capacidades
 
