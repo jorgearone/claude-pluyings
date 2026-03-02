@@ -4,10 +4,21 @@ Orquesta múltiples LLMs de código abierto para deliberar sobre consultas del u
 
 ## Configuración requerida
 
-Verificar que el usuario tenga configurada la variable de entorno `FIREWORKS_API_KEY`:
+Verificar que el usuario tenga configurada la variable de entorno `FIREWORKS_API_KEY`. Usar el comando según el sistema operativo:
 
+**Linux / macOS (bash)**
 ```bash
 echo $FIREWORKS_API_KEY
+```
+
+**Windows CMD**
+```cmd
+echo %FIREWORKS_API_KEY%
+```
+
+**Windows PowerShell**
+```powershell
+echo $env:FIREWORKS_API_KEY
 ```
 
 Si no está configurada, indicar al usuario que siga las instrucciones del README.
@@ -68,11 +79,30 @@ council-session-<timestamp>/
 
 ## Llamada a la API de Fireworks
 
+**Linux / macOS**
 ```bash
 curl -s -X POST \
   "https://api.fireworks.ai/inference/v1/chat/completions" \
   -H "Authorization: Bearer $FIREWORKS_API_KEY" \
   -H "Content-Type: application/json" \
+  -d @payload.json
+```
+
+**Windows CMD**
+```cmd
+curl -s -X POST ^
+  "https://api.fireworks.ai/inference/v1/chat/completions" ^
+  -H "Authorization: Bearer %FIREWORKS_API_KEY%" ^
+  -H "Content-Type: application/json" ^
+  -d @payload.json
+```
+
+**Windows PowerShell**
+```powershell
+curl -s -X POST `
+  "https://api.fireworks.ai/inference/v1/chat/completions" `
+  -H "Authorization: Bearer $env:FIREWORKS_API_KEY" `
+  -H "Content-Type: application/json" `
   -d @payload.json
 ```
 
