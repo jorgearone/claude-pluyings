@@ -4,16 +4,13 @@ Orquesta múltiples LLMs de código abierto para deliberar sobre consultas del u
 
 ## Configuración requerida
 
-Verificar que el usuario tenga configurada la variable de entorno `FIREWORKS_API_KEY`. Usar el comando según el sistema operativo:
+SIEMPRE cargar y verificar la API key ANTES de cualquier otra acción. Seguir este orden de prioridad:
+
+### Paso 1 — Verificar variable de entorno
 
 **Linux / macOS (bash)**
 ```bash
 echo $FIREWORKS_API_KEY
-```
-
-**Windows CMD**
-```cmd
-echo %FIREWORKS_API_KEY%
 ```
 
 **Windows PowerShell**
@@ -21,7 +18,33 @@ echo %FIREWORKS_API_KEY%
 echo $env:FIREWORKS_API_KEY
 ```
 
-Si no está configurada, indicar al usuario que siga las instrucciones del README.
+### Paso 2 — Si está vacía, leer desde archivo de configuración
+
+Esto es necesario en entornos sandbox como **Claude Desktop instalado desde Microsoft Store**, donde las variables del sistema no son heredadas.
+
+**Windows PowerShell**
+```powershell
+$pluginsEnv = "$env:APPDATA\Claude\plugins.env"
+if (Test-Path $pluginsEnv) {
+    $line = Get-Content $pluginsEnv | Where-Object { $_ -match "^FIREWORKS_API_KEY=" }
+    if ($line) { $env:FIREWORKS_API_KEY = $line -replace "^FIREWORKS_API_KEY=", "" }
+}
+echo $env:FIREWORKS_API_KEY
+```
+
+**Linux / macOS (bash)**
+```bash
+PLUGINS_ENV="$HOME/.config/claude/plugins.env"
+if [ -f "$PLUGINS_ENV" ]; then
+    export FIREWORKS_API_KEY=$(grep "^FIREWORKS_API_KEY=" "$PLUGINS_ENV" | cut -d'=' -f2-)
+fi
+echo $FIREWORKS_API_KEY
+```
+
+### Resultado esperado
+
+- Si imprime un valor → la key está disponible, PROCEDER normalmente.
+- Si sigue vacía → indicar al usuario que cree el archivo de configuración siguiendo el README y detener el proceso.
 
 ## Modelos disponibles en Fireworks AI
 

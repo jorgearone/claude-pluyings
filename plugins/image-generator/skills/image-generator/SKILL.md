@@ -4,16 +4,13 @@ Genera y edita imágenes usando el modelo `gemini-3-pro-image-preview` de Google
 
 ## Configuración requerida
 
-SIEMPRE verificar la API key ANTES de cualquier otra acción. Usar el comando según el sistema operativo:
+SIEMPRE cargar y verificar la API key ANTES de cualquier otra acción. Seguir este orden de prioridad:
+
+### Paso 1 — Verificar variable de entorno
 
 **Linux / macOS (bash)**
 ```bash
 echo $GEMINI_API_KEY
-```
-
-**Windows CMD**
-```cmd
-echo %GEMINI_API_KEY%
 ```
 
 **Windows PowerShell**
@@ -21,8 +18,33 @@ echo %GEMINI_API_KEY%
 echo $env:GEMINI_API_KEY
 ```
 
-- Si el comando devuelve un valor → la key está disponible, PROCEDER normalmente.
-- Si el comando devuelve vacío → indicar al usuario que configure la variable siguiendo el README y detener el proceso.
+### Paso 2 — Si está vacía, leer desde archivo de configuración
+
+Esto es necesario en entornos sandbox como **Claude Desktop instalado desde Microsoft Store**, donde las variables del sistema no son heredadas.
+
+**Windows PowerShell**
+```powershell
+$pluginsEnv = "$env:APPDATA\Claude\plugins.env"
+if (Test-Path $pluginsEnv) {
+    $line = Get-Content $pluginsEnv | Where-Object { $_ -match "^GEMINI_API_KEY=" }
+    if ($line) { $env:GEMINI_API_KEY = $line -replace "^GEMINI_API_KEY=", "" }
+}
+echo $env:GEMINI_API_KEY
+```
+
+**Linux / macOS (bash)**
+```bash
+PLUGINS_ENV="$HOME/.config/claude/plugins.env"
+if [ -f "$PLUGINS_ENV" ]; then
+    export GEMINI_API_KEY=$(grep "^GEMINI_API_KEY=" "$PLUGINS_ENV" | cut -d'=' -f2-)
+fi
+echo $GEMINI_API_KEY
+```
+
+### Resultado esperado
+
+- Si imprime un valor → la key está disponible, PROCEDER normalmente.
+- Si sigue vacía → indicar al usuario que cree el archivo de configuración siguiendo el README y detener el proceso.
 
 ## Capacidades
 
