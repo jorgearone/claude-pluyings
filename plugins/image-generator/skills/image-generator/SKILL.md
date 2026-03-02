@@ -4,13 +4,24 @@ Genera y edita imágenes usando el modelo `gemini-3-pro-image-preview` de Google
 
 ## Configuración requerida
 
-SIEMPRE ejecutar este comando bash ANTES de cualquier otra acción para verificar la key:
+SIEMPRE verificar la API key ANTES de cualquier otra acción. Usar el comando según el sistema operativo:
 
+**Linux / macOS (bash)**
 ```bash
 echo $GEMINI_API_KEY
 ```
 
-- Si el comando devuelve un valor → la key está disponible, PROCEDER normalmente usando `$GEMINI_API_KEY` en los comandos curl.
+**Windows CMD**
+```cmd
+echo %GEMINI_API_KEY%
+```
+
+**Windows PowerShell**
+```powershell
+echo $env:GEMINI_API_KEY
+```
+
+- Si el comando devuelve un valor → la key está disponible, PROCEDER normalmente.
 - Si el comando devuelve vacío → indicar al usuario que configure la variable siguiendo el README y detener el proceso.
 
 ## Capacidades
@@ -36,9 +47,22 @@ echo $GEMINI_API_KEY
 
 1. Solicitar la ruta de la imagen a editar
 2. Codificar la imagen en base64:
+
+   **Linux**
    ```bash
    base64 -w 0 imagen.jpg > imagen_b64.txt
    ```
+
+   **macOS**
+   ```bash
+   base64 imagen.jpg > imagen_b64.txt
+   ```
+
+   **Windows PowerShell**
+   ```powershell
+   [Convert]::ToBase64String([IO.File]::ReadAllBytes("imagen.jpg")) | Out-File -NoNewline imagen_b64.txt
+   ```
+
 3. Construir el payload con la imagen en base64 y las instrucciones de edición
 4. Escribir el payload en un archivo JSON temporal (no usar argumentos de línea de comandos por límite de longitud)
 5. Llamar a la API y guardar el resultado
@@ -74,10 +98,27 @@ Para edición con imagen de referencia, agregar en `parts`:
 
 ## Llamada a la API
 
+**Linux / macOS**
 ```bash
 curl -s -X POST \
   "https://generativelanguage.googleapis.com/v1beta/models/gemini-3-pro-image-preview:generateContent?key=$GEMINI_API_KEY" \
   -H "Content-Type: application/json" \
+  -d @payload.json
+```
+
+**Windows CMD**
+```cmd
+curl -s -X POST ^
+  "https://generativelanguage.googleapis.com/v1beta/models/gemini-3-pro-image-preview:generateContent?key=%GEMINI_API_KEY%" ^
+  -H "Content-Type: application/json" ^
+  -d @payload.json
+```
+
+**Windows PowerShell**
+```powershell
+curl -s -X POST `
+  "https://generativelanguage.googleapis.com/v1beta/models/gemini-3-pro-image-preview:generateContent?key=$env:GEMINI_API_KEY" `
+  -H "Content-Type: application/json" `
   -d @payload.json
 ```
 
@@ -92,5 +133,5 @@ curl -s -X POST \
 
 - Las imágenes incluyen marca de agua SynthID automáticamente
 - La API no almacena las imágenes generadas
-- Siempre guardar los archivos JSON temporales en `/tmp/` o en la carpeta de trabajo
+- Siempre guardar los archivos JSON temporales en `/tmp/` (Linux/macOS) o `%TEMP%` (Windows)
 - Nunca pasar el payload como argumento de línea de comandos (límite de longitud del shell)
