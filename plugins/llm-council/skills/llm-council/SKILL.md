@@ -4,47 +4,31 @@ Orquesta múltiples LLMs de código abierto para deliberar sobre consultas del u
 
 ## Configuración requerida
 
-SIEMPRE cargar y verificar la API key ANTES de cualquier otra acción. Seguir este orden de prioridad:
+SIEMPRE cargar y verificar la API key ANTES de cualquier otra acción usando PowerShell:
 
-### Paso 1 — Verificar variable de entorno
-
-**Linux / macOS (bash)**
-```bash
-echo $FIREWORKS_API_KEY
-```
-
-**Windows PowerShell**
 ```powershell
-echo $env:FIREWORKS_API_KEY
-```
-
-### Paso 2 — Si está vacía, leer desde archivo de configuración
-
-Esto es necesario en entornos sandbox como **Claude Desktop instalado desde Microsoft Store**, donde las variables del sistema no son heredadas.
-
-**Windows PowerShell**
-```powershell
-$pluginsEnv = "$env:APPDATA\Claude\plugins.env"
-if (Test-Path $pluginsEnv) {
-    $line = Get-Content $pluginsEnv | Where-Object { $_ -match "^FIREWORKS_API_KEY=" }
-    if ($line) { $env:FIREWORKS_API_KEY = $line -replace "^FIREWORKS_API_KEY=", "" }
+# Paso 1: intentar desde variable de entorno
+if (-not $env:FIREWORKS_API_KEY) {
+    # Paso 2: leer desde archivo (necesario en Claude Desktop - Microsoft Store)
+    $pluginsEnv = "$env:APPDATA\Claude\plugins.env"
+    if (Test-Path $pluginsEnv) {
+        $line = Get-Content $pluginsEnv | Where-Object { $_ -match "^FIREWORKS_API_KEY=" }
+        if ($line) { $env:FIREWORKS_API_KEY = $line -replace "^FIREWORKS_API_KEY=", "" }
+    }
 }
 echo $env:FIREWORKS_API_KEY
 ```
 
-**Linux / macOS (bash)**
-```bash
-PLUGINS_ENV="$HOME/.config/claude/plugins.env"
-if [ -f "$PLUGINS_ENV" ]; then
-    export FIREWORKS_API_KEY=$(grep "^FIREWORKS_API_KEY=" "$PLUGINS_ENV" | cut -d'=' -f2-)
-fi
-echo $FIREWORKS_API_KEY
+- Si imprime un valor → PROCEDER normalmente.
+- Si sigue vacía → mostrar este mensaje y **detener el proceso**:
+
 ```
+La FIREWORKS_API_KEY no está configurada.
+Crea el archivo:  %APPDATA%\Claude\plugins.env
+Con el contenido: FIREWORKS_API_KEY=tu_api_key_aqui
 
-### Resultado esperado
-
-- Si imprime un valor → la key está disponible, PROCEDER normalmente.
-- Si sigue vacía → indicar al usuario que cree el archivo de configuración siguiendo el README y detener el proceso.
+Obtén tu key en: https://app.fireworks.ai/
+```
 
 ## Modelos disponibles en Fireworks AI
 
